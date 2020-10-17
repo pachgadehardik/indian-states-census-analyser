@@ -12,7 +12,7 @@ public class Driver {
 		final String INCORRECT_DATA_FILE = "H:\\Capgemini\\Capg_Training\\census-analyser\\IncorrectFile.txt";
 
 		try {
-			StateCensusAnalyser.readCSVDataFile(INCORRECT_DATA_FILE);
+			StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CENSUS_FILE, CSVStateCensus.class);
 		} catch (CensusAnalyserException c) {
 			c.printStackTrace();
 		} catch (IOException e) {
