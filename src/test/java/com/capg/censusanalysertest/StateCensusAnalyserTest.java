@@ -59,8 +59,7 @@ public class StateCensusAnalyserTest {
 
 	/**
 	 * @throws CensusAnalyserException
-	 * @throws IOException             
-	 * passing a file with Incorrect Delimiter
+	 * @throws IOException             passing a file with Incorrect Delimiter
 	 */
 	@Test
 	public void givenCorrectCSVFile_IncorrectDelimiter_ShouldReturnCustomException()
@@ -68,8 +67,24 @@ public class StateCensusAnalyserTest {
 		try {
 			StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CENSUS_FILE, CSVStateCensus.class);
 		} catch (CensusAnalyserException e) {
-			assertEquals(CensusAnalyserException.CensusExceptionType.DELIMITER_TYPE, e.type);
+			assertEquals(CensusAnalyserException.CensusExceptionType.DELIMITER_OR_HEADER_TYPE, e.type);
 		}
+	}
+
+	/**
+	 * @throws CensusAnalyserException
+	 * @throws IOException
+	 * Passing a CSV File with incorrect Header Info
+	 */ 
+	@Test
+	public void givenCorrectCSVFile_InCorrectHeader_ShouldReturnCustomException()
+			throws CensusAnalyserException, IOException {
+		try {
+			StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CENSUS_FILE, CSVStateCensus.class);
+		} catch (CensusAnalyserException e) {
+			assertEquals(CensusAnalyserException.CensusExceptionType.DELIMITER_OR_HEADER_TYPE, e.type);
+		}
+
 	}
 
 }
