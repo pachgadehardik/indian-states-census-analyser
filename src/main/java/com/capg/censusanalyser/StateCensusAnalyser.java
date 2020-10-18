@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.stream.StreamSupport;
 
 import com.capg.censusanalyser.CensusAnalyserException.CensusExceptionType;
 import com.opencsv.bean.CsvToBean;
@@ -18,7 +20,6 @@ public class StateCensusAnalyser {
 
 	public static <T> int readCSVDataFile(String dataFile, Class<T> myClass)
 			throws IOException, CensusAnalyserException {
-		int count = 0;				
 		int countEntries =0;
 
 		try {
@@ -30,10 +31,8 @@ public class StateCensusAnalyser {
 			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
 			CsvToBean<T> csvToBean = csvToBeanBuilder.build();
 			Iterator<T> objectIterator = csvToBean.iterator();
- 			while (objectIterator.hasNext()) {	
-				if(objectIterator.next()!=null) 
-					countEntries++;
-			}
+			Iterable<T> objIterable = () -> objectIterator;
+			countEntries = (int) StreamSupport.stream(objIterable.spliterator(),false).count();
 			System.out.println("Total Entries: " + countEntries);
 			reader.close();
 			return countEntries;
@@ -52,7 +51,7 @@ public class StateCensusAnalyser {
 	}
 
 	private static void validateInputObjectType(Object myClass) throws CensusAnalyserException {
-		if (!myClass.equals(CSVStateCensus.class)) {
+		if (!(myClass.equals(CSVStateCensus.class) || myClass.equals(CSVStateCode.class))) {
 			throw new CensusAnalyserException(CensusExceptionType.INCORRECT_TYPE, "Incorrect Type");
 		}
 	}
