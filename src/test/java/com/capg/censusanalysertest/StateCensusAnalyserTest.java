@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import com.capg.censusanalyser.CSVStateCensus;
+import com.capg.censusanalyser.CSVStateCode;
 import com.capg.censusanalyser.CensusAnalyserException;
 import com.capg.censusanalyser.IncorrectPOJO;
 import com.capg.censusanalyser.StateCensusAnalyser;
@@ -16,7 +17,8 @@ public class StateCensusAnalyserTest {
 
 	final String INDIA_STATE_CENSUS_FILE = "H:\\Capgemini\\Capg_Training\\census-analyser\\IndiaStateCensusData - IndiaStateCensusData.csv";
 	final String INCORRECT_DATA_FILE = "H:\\Capgemini\\Capg_Training\\census-analyser\\IncorrectFile.txt";
-
+	final String INDIA_STATE_CODE_FILE = "H:\\Capgemini\\Capg_Training\\census-analyser\\IndiaStateCode - IndiaStateCode.csv";
+	
 	@Test
 	public void givenStateCensusFileHasCorrectNumberEntries_ShouldReturnTrue()
 			throws CensusAnalyserException, IOException {
@@ -86,5 +88,16 @@ public class StateCensusAnalyserTest {
 		}
 
 	}
+	
+	
+	@Test
+	public void givenStateCodeFileHasCorrectNumberEntries_ShouldReturnTrue() {
+		int count = 0;
+		try {
+			 count = StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CODE_FILE, CSVStateCode.class);
+		} catch (IOException | CensusAnalyserException e) {
+			assertEquals(37, count);
+		}
+	} 
 
 }
