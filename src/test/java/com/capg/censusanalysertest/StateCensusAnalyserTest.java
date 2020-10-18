@@ -107,4 +107,15 @@ public class StateCensusAnalyserTest {
 		});
 	}
 	
+	@Test //2.3
+	public void givenCorrectStateCSVFile_IncorrectType_ShouldReturnCustomExeption() throws IOException, CensusAnalyserException {
+		try {
+			StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CODE_FILE, IncorrectPOJO.class);
+		}
+		catch(CensusAnalyserException e) {
+			assertEquals(CensusAnalyserException.CensusExceptionType.INCORRECT_TYPE, e.type);
+		}
+	}
+
+	
 }
