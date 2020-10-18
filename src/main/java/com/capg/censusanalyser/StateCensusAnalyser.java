@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
-import java.util.stream.StreamSupport;
 
 import com.capg.censusanalyser.CensusAnalyserException.CensusExceptionType;
 import com.opencsv.bean.CsvToBean;
@@ -45,8 +44,8 @@ public class StateCensusAnalyser {
 		} catch (NoSuchFileException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, "NO FILE FOUND!!");
 		} catch (RuntimeException r) {
-			throw new CensusAnalyserException(CensusExceptionType.DELIMITER_TYPE,
-					"Other Runtime base Exception reagarding Delimiter Issue: " + r.getMessage());
+			throw new CensusAnalyserException(CensusExceptionType.DELIMITER_OR_HEADER_TYPE,
+					"Runtime base Exception reagarding Delimiter or any Header Issue: " + r.getMessage());
 		} catch (Exception E) {
 			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, E.getMessage());
 		}
