@@ -90,7 +90,7 @@ public class StateCensusAnalyserTest {
 	}
 	
 	
-	@Test
+	@Test //2.1
 	public void givenStateCodeFileHasCorrectNumberEntries_ShouldReturnTrue() {
 		int count = 0;
 		try {
@@ -100,4 +100,11 @@ public class StateCensusAnalyserTest {
 		}
 	} 
 
+	@Test //2.2
+	public void givenIncorrectFilePath_ShouldThrowException() {
+		assertThrows(CensusAnalyserException.class, () -> {
+			StateCensusAnalyser.readCSVDataFile(INCORRECT_DATA_FILE, CSVStateCode.class);
+		});
+	}
+	
 }
