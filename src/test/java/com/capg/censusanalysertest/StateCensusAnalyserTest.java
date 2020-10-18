@@ -117,5 +117,19 @@ public class StateCensusAnalyserTest {
 		}
 	}
 
+	/**
+	 * @throws CensusAnalyserException
+	 * @throws IOException
+	 * Added a different delimiter in the data file for testing 
+	 */
+	@Test
+	public void givenCorrectStateCSVFile_IncorrectDelimiter_ShouldReturnCustomException()
+			throws CensusAnalyserException, IOException {
+		try {
+			StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CODE_FILE, CSVStateCode.class);
+		} catch (CensusAnalyserException e) {
+			assertEquals(CensusAnalyserException.CensusExceptionType.DELIMITER_OR_HEADER_TYPE, e.type);
+		}
+	}
 	
 }
