@@ -7,9 +7,9 @@ import com.capg.censusanalyser.CensusAnalyserException.CensusExceptionType;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-public class OpenCSVBuilder {
+public class OpenCSVBuilder<T> implements ICSVBuilder {
 
-	public <T> Iterator<T> getCSVFileIterator(Reader reader, Class<T> myClass) throws CensusAnalyserException {
+	public Iterator<T> getCSVFileIterator(Reader reader, Class myClass) throws CensusAnalyserException {
 		try {
 			validateInputObjectType(myClass);
 			CsvToBeanBuilder<T> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
