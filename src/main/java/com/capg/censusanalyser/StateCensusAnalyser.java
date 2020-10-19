@@ -25,9 +25,6 @@ public class StateCensusAnalyser {
 			return this.getCount(censusIterator);
 		} catch (IOException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
-		} catch (CensusAnalyserException e) {
-			logger.error("Exception occured regarding Incorrect Type of POJO");
-			throw new CensusAnalyserException(CensusExceptionType.INCORRECT_TYPE, e.getMessage());
 		} catch (RuntimeException r) {
 			logger.error("Delimiter or header issue !!");
 			throw new CensusAnalyserException(CensusExceptionType.DELIMITER_OR_HEADER_TYPE,
@@ -45,9 +42,6 @@ public class StateCensusAnalyser {
 			return this.getCount(stateCensusIterator);
 		} catch (IOException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
-		} catch (CensusAnalyserException e) {
-			logger.error("Exception occured regarding Incorrect Type of POJO");
-			throw new CensusAnalyserException(CensusExceptionType.INCORRECT_TYPE, e.getMessage());
 		} catch (RuntimeException r) {
 			logger.error("Delimiter or header issue !!");
 			throw new CensusAnalyserException(CensusExceptionType.DELIMITER_OR_HEADER_TYPE,

@@ -1,15 +1,17 @@
-package com.capg.censusanalyser;
+package com.capg.csvbuilder;
 
 import java.io.Reader;
 import java.util.Iterator;
 
-import com.capg.censusanalyser.CensusAnalyserException.CensusExceptionType;
+import com.capg.censusanalyser.CSVStateCensus;
+import com.capg.censusanalyser.CSVStateCode;
+import com.capg.censusanalyser.ICSVBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class OpenCSVBuilder<T> implements ICSVBuilder {
 
-	public Iterator<T> getCSVFileIterator(Reader reader, Class myClass) throws CensusAnalyserException {
+	public Iterator<T> getCSVFileIterator(Reader reader, Class myClass) throws CSVBuilderException {
 		try {
 			validateInputObjectType(myClass);
 			CsvToBeanBuilder<T> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
@@ -18,13 +20,13 @@ public class OpenCSVBuilder<T> implements ICSVBuilder {
 			CsvToBean<T> csvToBean = csvToBeanBuilder.build();
 			return csvToBean.iterator();
 		} catch (IllegalStateException e) {
-			throw new CensusAnalyserException(CensusExceptionType.DELIMITER_OR_HEADER_TYPE, e.getMessage());
+			throw new CSVBuilderException(e.getMessage());
 		}
 	}
 
-	private static void validateInputObjectType(Object myClass) throws CensusAnalyserException {
+	private static void validateInputObjectType(Object myClass) throws CSVBuilderException {
 		if (!(myClass.equals(CSVStateCensus.class) || myClass.equals(CSVStateCode.class))) {
-			throw new CensusAnalyserException(CensusExceptionType.INCORRECT_TYPE, "Incorrect Type");
+			throw new CSVBuilderException("Incorrect Type of Class");
 		}
 	}
 
