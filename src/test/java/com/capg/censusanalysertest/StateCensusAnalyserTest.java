@@ -24,8 +24,8 @@ public class StateCensusAnalyserTest {
 	public void givenStateCensusFileHasCorrectNumberEntries_ShouldReturnTrue()
 			throws CensusAnalyserException, IOException, CsvException {
 		int count = 0;
-			count = new StateCensusAnalyser().loadIndiaCensusData(INDIA_STATE_CENSUS_FILE);
-			assertEquals(29, count);
+		count = new StateCensusAnalyser().loadIndiaCensusData(INDIA_STATE_CENSUS_FILE);
+		assertEquals(29, count);
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class StateCensusAnalyserTest {
 	/**
 	 * @throws CensusAnalyserException
 	 * @throws IOException             passing a file with Incorrect Delimiter
-	 * @throws CsvException 
+	 * @throws CsvException
 	 */
 	@Test
 	public void givenCorrectCSVFile_IncorrectDelimiter_ShouldReturnCustomException()
@@ -73,7 +73,7 @@ public class StateCensusAnalyserTest {
 	/**
 	 * @throws CensusAnalyserException
 	 * @throws IOException             Passing a CSV File with incorrect Header Info
-	 * @throws CsvException 
+	 * @throws CsvException
 	 */
 	@Test
 	public void givenCorrectCSVFile_InCorrectHeader_ShouldReturnCustomException()
@@ -117,7 +117,7 @@ public class StateCensusAnalyserTest {
 	 * @throws CensusAnalyserException
 	 * @throws IOException             Added a different delimiter in the data file
 	 *                                 for testing
-	 * @throws CsvException 
+	 * @throws CsvException
 	 */
 	@Test // 2.4
 	public void givenCorrectStateCSVFile_IncorrectDelimiter_ShouldReturnCustomException()
@@ -133,7 +133,7 @@ public class StateCensusAnalyserTest {
 	 * @throws CensusAnalyserException
 	 * @throws IOException             Changed the Header name in data file for
 	 *                                 testing
-	 * @throws CsvException 
+	 * @throws CsvException
 	 */
 	@Test // 2.5
 	public void givenCorrectStateCSVFile_InCorrectHeader_ShouldReturnCustomException()
