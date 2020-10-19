@@ -14,9 +14,8 @@ public class Driver {
 		final String INCORRECT_DATA_FILE = "H:\\Capgemini\\Capg_Training\\census-analyser\\IncorrectFile.txt";
 		final String INDIA_STATE_CODE_FILE = "H:\\Capgemini\\Capg_Training\\census-analyser\\IndiaStateCode - IndiaStateCode.csv";
 
-		
 		try {
-			StateCensusAnalyser.readCSVDataFile(INDIA_STATE_CODE_FILE, CSVStateCode.class);
+			new StateCensusAnalyser().loadIndiaCensusData(INDIA_STATE_CENSUS_FILE);
 		} catch (CensusAnalyserException c) {
 			c.printStackTrace();
 		} catch (IOException e) {
