@@ -19,7 +19,7 @@ import com.capg.csvbuilder.ICSVBuilder;
 import com.google.gson.Gson;
 
 public class StateCensusAnalyser {
-
+	List<CSVStateCensus> censusCSVList = null;
 	private static final Logger logger = LogManager.getLogger(StateCensusAnalyser.class);
 
 	public int loadIndiaCensusData(String csvFilePath, boolean libFlag) throws IOException, CensusAnalyserException {
@@ -29,7 +29,7 @@ public class StateCensusAnalyser {
 				csvBuilder = CSVBuilderFactory.createCSVBuilder();
 			else // using CommonCSV library
 				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
-			List<CSVStateCensus> censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
+			censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
 			return censusCSVList.size();
 		} catch (IOException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
@@ -73,31 +73,16 @@ public class StateCensusAnalyser {
 
 	}
 
-	public String getStateWiseSortedData(String csvFilePath) throws CensusAnalyserException {
-
-		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-//			if (libFlag) // if true then using Opencsv
-			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-//			else // using CommonCSV library
-//				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
-			List<CSVStateCensus> censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
-			Comparator<CSVStateCensus> censusComparator = Comparator.comparing(census -> census.getState());
-			this.sort(censusComparator, censusCSVList);
-			String sortedStateCensusJson = new Gson().toJson(censusCSVList);
-			return sortedStateCensusJson;
-		} catch (IOException e) {
-			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
-		} catch (RuntimeException r) {
-			logger.error("Delimiter or header issue !!");
-			throw new CensusAnalyserException(CensusExceptionType.DELIMITER_OR_HEADER_TYPE,
-					"Runtime base Exception reagarding Delimiter or any Header Issue: " + r.getMessage());
-		} catch (Exception E) {
-			logger.error("Other Exception");
-			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, E.getMessage());
-		}
+	public String getStateWiseSortedData() throws CensusAnalyserException {
+		if(censusCSVList == null || censusCSVList.size() == 0)
+			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE,"No census Data!!");
+		Comparator<CSVStateCensus> censusComparator = Comparator.comparing(census -> census.getState());
+		this.sort(censusComparator);
+		String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+		return sortedStateCensusJson;
 	}
 
-	private void sort(Comparator<CSVStateCensus> censusComparator, List<CSVStateCensus> censusCSVList) {
+	private void sort(Comparator<CSVStateCensus> censusComparator) {
 		for (int i = 0; i < censusCSVList.size(); i++) {
 			for (int j = 0; j < censusCSVList.size() - i - 1; j++) {
 				CSVStateCensus census1 = censusCSVList.get(j);
