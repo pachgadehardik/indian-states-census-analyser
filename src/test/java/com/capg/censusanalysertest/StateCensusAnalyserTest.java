@@ -7,10 +7,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import com.capg.censusanalyser.CSVStateCensus;
-import com.capg.censusanalyser.CSVStateCode;
 import com.capg.censusanalyser.CensusAnalyserException;
-import com.capg.censusanalyser.IncorrectPOJO;
 import com.capg.censusanalyser.StateCensusAnalyser;
 import com.opencsv.exceptions.CsvException;
 
@@ -32,11 +29,11 @@ public class StateCensusAnalyserTest {
 	public void givenIncorrectFilePathShouldReturnCustomException() throws CensusAnalyserException, CsvException {
 
 		assertThrows(CensusAnalyserException.class, () -> {
-			new StateCensusAnalyser().loadIndiaCensusData(INDIA_STATE_CENSUS_FILE,true);
+			new StateCensusAnalyser().loadIndiaCensusData(INCORRECT_DATA_FILE,true);
 		});
 
 		try {
-			new StateCensusAnalyser().loadIndiaCensusData(INDIA_STATE_CENSUS_FILE,true);
+			new StateCensusAnalyser().loadIndiaCensusData(INCORRECT_DATA_FILE,true);
 		} catch (CensusAnalyserException e) {
 //			e.printStackTrace();
 			assertEquals(CensusAnalyserException.CensusExceptionType.FILE_NOT_FOUND_TYPE, e.type);
@@ -99,7 +96,7 @@ public class StateCensusAnalyserTest {
 	@Test // 2.2
 	public void givenIncorrectFilePath_ShouldThrowException() {
 		assertThrows(CensusAnalyserException.class, () -> {
-			new StateCensusAnalyser().loadIndiaStateCode(INDIA_STATE_CODE_FILE,true);
+			new StateCensusAnalyser().loadIndiaStateCode(INCORRECT_DATA_FILE,true);
 		});
 	}
 
