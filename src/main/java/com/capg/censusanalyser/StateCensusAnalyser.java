@@ -12,16 +12,20 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import com.capg.censusanalyser.CensusAnalyserException.CensusExceptionType;
+import com.capg.csvbuilder.CSVBuilderFactory;
 import com.capg.csvbuilder.ICSVBuilder;
 
 public class StateCensusAnalyser {
 
 	private static final Logger logger = LogManager.getLogger(StateCensusAnalyser.class);
 
-	public int loadIndiaCensusData(String csvFilePath) throws IOException, CensusAnalyserException {
+	public int loadIndiaCensusData(String csvFilePath, boolean libFlag) throws IOException, CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-
-			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			ICSVBuilder csvBuilder = null;
+			if (libFlag) //if true then using Opencsv
+				csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			else //using CommonCSV library
+				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
 			Iterator<CSVStateCensus> censusIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
 			return this.getCount(censusIterator);
 		} catch (IOException e) {
@@ -36,9 +40,13 @@ public class StateCensusAnalyser {
 		}
 	}
 
-	public int loadIndiaStateCode(String csvFilePath) throws IOException, CensusAnalyserException {
+	public int loadIndiaStateCode(String csvFilePath, boolean libFlag) throws IOException, CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			ICSVBuilder csvBuilder = null;
+			if (libFlag) //if true then using Opencsv
+				csvBuilder = CSVBuilderFactory.createCSVBuilder();
+			else	//using CommonCSV library
+				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
 			Iterator<CSVStateCensus> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
 			return this.getCount(stateCensusIterator);
 		} catch (IOException e) {
