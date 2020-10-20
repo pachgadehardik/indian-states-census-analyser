@@ -105,5 +105,17 @@ public class StateCensusAnalyser {
 		String sortedStatePopulationCensusJson = new Gson().toJson(censusCSVList);
 		return sortedStatePopulationCensusJson;
 	}
+	
+	public String getStateDensitySortedData() throws CensusAnalyserException {
+		if (censusCSVList == null || censusCSVList.size() == 0)
+			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "NO CENSUS DATA AVAILABLE!!");
 
+		Comparator<CSVStateCensus> censusDensityComparator = Comparator
+				.comparing(census -> Integer.parseInt(census.getDensity()));
+
+		Collections.sort(censusCSVList, censusDensityComparator.reversed());
+		String sortedStatePopulationCensusJson = new Gson().toJson(censusCSVList);
+		return sortedStatePopulationCensusJson;
+	}
+	
 }
