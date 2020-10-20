@@ -10,7 +10,7 @@
 
 	<name>census-analyser</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -44,5 +44,13 @@
 			<version>1.2.17</version>
 		</dependency>
 
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-csv</artifactId>
+		<version>1.8</version>
+	</dependency>
+	
 	</dependencies>
+
+
 </project>
