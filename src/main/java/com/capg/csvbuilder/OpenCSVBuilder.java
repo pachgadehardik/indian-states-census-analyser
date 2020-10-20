@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import com.capg.censusanalyser.CSVStateCensus;
 import com.capg.censusanalyser.CSVStateCode;
-import com.capg.censusanalyser.ICSVBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 

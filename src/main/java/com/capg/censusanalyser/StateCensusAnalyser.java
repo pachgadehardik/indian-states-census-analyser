@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import com.capg.censusanalyser.CensusAnalyserException.CensusExceptionType;
+import com.capg.csvbuilder.ICSVBuilder;
 
 public class StateCensusAnalyser {
 
