@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.LogManager;
@@ -18,7 +19,9 @@ import com.capg.csvbuilder.ICSVBuilder;
 public class StateCensusAnalyser {
 
 	private static final Logger logger = LogManager.getLogger(StateCensusAnalyser.class);
-
+	
+	
+	
 	public int loadIndiaCensusData(String csvFilePath, boolean libFlag) throws IOException, CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			ICSVBuilder csvBuilder = null;
@@ -26,8 +29,8 @@ public class StateCensusAnalyser {
 				csvBuilder = CSVBuilderFactory.createCSVBuilder();
 			else //using CommonCSV library
 				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
-			Iterator<CSVStateCensus> censusIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-			return this.getCount(censusIterator);
+			List<CSVStateCensus> censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
+			return censusCSVList.size();
 		} catch (IOException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
 		} catch (RuntimeException r) {
