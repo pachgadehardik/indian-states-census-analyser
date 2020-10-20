@@ -209,4 +209,14 @@ public class StateCensusAnalyserTest {
 		assertEquals("607688", censusState[censusState.length-1].getPopulation());
 	}
 	
+	@Test
+	public void givenStateCensusData_OnSortingPopulationDensity_ShouldReturnSortedResult() throws IOException, CensusAnalyserException {
+		StateCensusAnalyser statePopulationDensityCensusAnalyser = new StateCensusAnalyser();
+		statePopulationDensityCensusAnalyser.loadIndiaCensusData(INDIA_STATE_CENSUS_FILE, true);
+		String sortedCensusData = statePopulationDensityCensusAnalyser.getStatePopulationSortedData();
+		CSVStateCensus[] censusState = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+		assertEquals("828", censusState[0].getDensity());
+		assertEquals("86", censusState[censusState.length-1].getDensity());
+	}
+	
 }
