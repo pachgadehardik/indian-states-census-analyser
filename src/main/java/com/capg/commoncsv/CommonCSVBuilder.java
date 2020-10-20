@@ -3,6 +3,7 @@ package com.capg.commoncsv;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.log4j.LogManager;
@@ -27,6 +28,11 @@ public class CommonCSVBuilder<T> implements ICSVBuilder<T> {
 			logger.error(e.getMessage());
 			throw new CSVBuilderException(e.getMessage());
 		}
+	}
+
+	@Override
+	public List<T> getCSVFileList(Reader reader, Class myClass) throws CSVBuilderException {
+		return null;
 	}
 		
 	
