@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 import com.capg.censusanalyser.CSVStateCensus;
+import com.capg.censusanalyser.CSVStateCode;
 import com.capg.censusanalyser.CensusAnalyserException;
 import com.capg.censusanalyser.StateCensusAnalyser;
 import com.google.gson.Gson;
@@ -149,7 +150,7 @@ public class StateCensusAnalyserTest {
 	public void givenCommonCSVLibraryShouldImplement_correctBuilderFunction() {
 		int count = 0;
 		try {
-			count = new StateCensusAnalyser().loadIndiaStateCode(INDIA_STATE_CODE_FILE,false);
+			count = new StateCensusAnalyser().loadIndiaStateCode(INDIA_STATE_CODE_FILE,true);
 		} catch (IOException | CensusAnalyserException e) {
 			assertEquals(37, count);
 		}
@@ -182,5 +183,21 @@ public class StateCensusAnalyserTest {
 		 CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
 		 assertEquals("West Bengal",censusCSV[censusCSV.length-1].getState());		 
 	}
-
+	
+	/**
+	 * @throws IOException
+	 * @throws CensusAnalyserException
+	 * FIrst And LAst State Code Checking
+	 */
+	@Test
+	public void givenCensusCodeData_OnSortingStatesCode_ShouldReturnSortedResult() throws IOException, CensusAnalyserException {
+		StateCensusAnalyser stateCodeCensusAnalyser = new StateCensusAnalyser();
+		stateCodeCensusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_FILE, true);
+		String sortedCensusData = stateCodeCensusAnalyser.getStateCodeWiseSortedData();
+		CSVStateCode[] censusCodeCSV = new Gson().fromJson(sortedCensusData, CSVStateCode[].class);
+		assertEquals("WB", censusCodeCSV[censusCodeCSV.length - 1].getStateCode());
+		assertEquals("AD", censusCodeCSV[0].getStateCode());
+	}
+	
+	
 }
