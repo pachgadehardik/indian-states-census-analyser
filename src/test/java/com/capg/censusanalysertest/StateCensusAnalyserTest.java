@@ -199,5 +199,14 @@ public class StateCensusAnalyserTest {
 		assertEquals("AD", censusCodeCSV[0].getStateCode());
 	}
 	
+	@Test
+	public void givenStateCensusData_OnSortingPopulation_ShouldReturnSortedResult() throws IOException, CensusAnalyserException {
+		StateCensusAnalyser statePopulationCensusAnalyser = new StateCensusAnalyser();
+		statePopulationCensusAnalyser.loadIndiaCensusData(INDIA_STATE_CENSUS_FILE, true);
+		String sortedCensusData = statePopulationCensusAnalyser.getStatePopulationSortedData();
+		CSVStateCensus[] censusState = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+		assertEquals("199812341", censusState[0].getPopulation());
+		assertEquals("607688", censusState[censusState.length-1].getPopulation());
+	}
 	
 }
