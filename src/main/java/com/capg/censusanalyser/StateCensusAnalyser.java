@@ -118,4 +118,15 @@ public class StateCensusAnalyser {
 		return sortedStatePopulationCensusJson;
 	}
 	
+	public String getStateAreaSortedData() throws CensusAnalyserException {
+		if (censusCSVList == null || censusCSVList.size() == 0)
+			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "NO CENSUS DATA AVAILABLE!!");
+
+		Comparator<CSVStateCensus> censusAreaComparator = Comparator
+				.comparing(census -> Integer.parseInt(census.getArea()));
+
+		Collections.sort(censusCSVList, censusAreaComparator.reversed());
+		String sortedStateAreaCensusJson = new Gson().toJson(censusCSVList);
+		return sortedStateAreaCensusJson;
+	}
 }
