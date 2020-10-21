@@ -150,7 +150,7 @@ public class StateCensusAnalyserTest {
 	public void givenCommonCSVLibraryShouldImplement_correctBuilderFunction() {
 		int count = 0;
 		try {
-			count = new StateCensusAnalyser().loadIndiaStateCode(INDIA_STATE_CODE_FILE,true);
+			count = new StateCensusAnalyser().loadIndiaStateCode(INDIA_STATE_CODE_FILE,false);
 		} catch (IOException | CensusAnalyserException e) {
 			assertEquals(37, count);
 		}
