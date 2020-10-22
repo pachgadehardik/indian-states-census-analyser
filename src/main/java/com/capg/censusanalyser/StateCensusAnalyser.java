@@ -24,7 +24,8 @@ public class StateCensusAnalyser {
 	List<CSVStateCode> censusCodeCSVList = null;
 	private static final Logger logger = LogManager.getLogger(StateCensusAnalyser.class);
 
-	public int loadIndiaCensusData(String csvFilePath, boolean libFlag) throws IOException, CensusAnalyserException {
+	public <T> List<CSVStateCensus> loadIndiaCensusData(String csvFilePath, boolean libFlag)
+			throws IOException, CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			ICSVBuilder csvBuilder = null;
 			if (libFlag) // if true then using Opencsv
@@ -32,7 +33,7 @@ public class StateCensusAnalyser {
 			else // using CommonCSV library
 				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
 			censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
-			return censusCSVList.size();
+			return censusCSVList;
 		} catch (IOException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
 		} catch (RuntimeException r) {
@@ -45,7 +46,8 @@ public class StateCensusAnalyser {
 		}
 	}
 
-	public int loadIndiaStateCode(String csvFilePath, boolean libFlag) throws IOException, CensusAnalyserException {
+	public <T> List<CSVStateCode> loadIndiaStateCode(String csvFilePath, boolean libFlag)
+			throws IOException, CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
 			ICSVBuilder csvBuilder = null;
 			if (libFlag) // if true then using Opencsv
@@ -53,7 +55,7 @@ public class StateCensusAnalyser {
 			else // using CommonCSV library
 				csvBuilder = CSVBuilderFactory.createCommonCSVBuilder();
 			censusCodeCSVList = csvBuilder.getCSVFileList(reader, CSVStateCode.class);
-			return censusCodeCSVList.size();
+			return censusCodeCSVList;
 		} catch (IOException e) {
 			throw new CensusAnalyserException(CensusExceptionType.FILE_NOT_FOUND_TYPE, e.getMessage());
 		} catch (RuntimeException r) {
@@ -75,15 +77,6 @@ public class StateCensusAnalyser {
 
 	}
 
-	public String getStateWiseSortedData() throws CensusAnalyserException {
-		if (censusCSVList == null || censusCSVList.size() == 0)
-			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "No census Data!!");
-		Comparator<CSVStateCensus> censusComparator = Comparator.comparing(census -> census.getState());
-		Collections.sort(censusCSVList, censusComparator);
-		String sortedStateCensusJson = new Gson().toJson(censusCSVList);
-		return sortedStateCensusJson;
-	}
-
 	public String getStateCodeWiseSortedData() throws CensusAnalyserException {
 		if (censusCodeCSVList == null || censusCodeCSVList.size() == 0)
 			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "No census code Data!!");
@@ -94,39 +87,12 @@ public class StateCensusAnalyser {
 
 	}
 
-	public String getStatePopulationSortedData() throws CensusAnalyserException {
+	public static String getCensusCSVSortedData(List<CSVStateCensus> censusCSVList, SortingaFieldType fieldType)
+			throws CensusAnalyserException {
 		if (censusCSVList == null || censusCSVList.size() == 0)
-			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "NO CENSUS DATA AVAILABLE!!");
-
-		Comparator<CSVStateCensus> censusPopulationComparator = Comparator
-				.comparing(census -> Integer.parseInt(census.getPopulation()));
-
-		Collections.sort(censusCSVList, censusPopulationComparator.reversed());
-		String sortedStatePopulationCensusJson = new Gson().toJson(censusCSVList);
-		return sortedStatePopulationCensusJson;
+			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "DATA is Empty");
+		Collections.sort(censusCSVList, fieldType.getComparator());
+		return new Gson().toJson(censusCSVList);
 	}
-	
-	public String getStateDensitySortedData() throws CensusAnalyserException {
-		if (censusCSVList == null || censusCSVList.size() == 0)
-			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "NO CENSUS DATA AVAILABLE!!");
 
-		Comparator<CSVStateCensus> censusDensityComparator = Comparator
-				.comparing(census -> Integer.parseInt(census.getDensity()));
-
-		Collections.sort(censusCSVList, censusDensityComparator.reversed());
-		String sortedStatePopulationCensusJson = new Gson().toJson(censusCSVList);
-		return sortedStatePopulationCensusJson;
-	}
-	
-	public String getStateAreaSortedData() throws CensusAnalyserException {
-		if (censusCSVList == null || censusCSVList.size() == 0)
-			throw new CensusAnalyserException(CensusExceptionType.OTHER_TYPE, "NO CENSUS DATA AVAILABLE!!");
-
-		Comparator<CSVStateCensus> censusAreaComparator = Comparator
-				.comparing(census -> Integer.parseInt(census.getArea()));
-
-		Collections.sort(censusCSVList, censusAreaComparator.reversed());
-		String sortedStateAreaCensusJson = new Gson().toJson(censusCSVList);
-		return sortedStateAreaCensusJson;
-	}
 }
